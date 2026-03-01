@@ -136,6 +136,19 @@ export default function HomePage() {
     setGeoData(null)
   }
 
+  async function handleMyLocation() {
+    setLoading(true)
+    try {
+      const geo = await fetchMyGeo()
+      setGeoData(geo)
+      showToast(`Your IP: ${geo.ip}`, 'success')
+    } catch {
+      showToast('Could not detect your location')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   function handleHistoryClick(entry: HistoryEntry) {
     setGeoData(entry.geoData)
     setActiveTab('single')
@@ -373,6 +386,16 @@ export default function HomePage() {
                   loading={searching}
                   recentIps={recentIps}
                 />
+                <button
+                  onClick={handleMyLocation}
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-stone-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-stone-700 dark:text-zinc-200 hover:bg-stone-50 dark:hover:bg-zinc-700 transition-colors disabled:opacity-50"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-1.5 0a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0ZM10 11.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" clipRule="evenodd" />
+                  </svg>
+                  {loading ? 'Detecting...' : 'My Location'}
+                </button>
                 <GeoDisplay
                   data={geoData}
                   loading={loading}
