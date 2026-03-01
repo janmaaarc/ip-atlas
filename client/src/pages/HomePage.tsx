@@ -99,20 +99,10 @@ export default function HomePage() {
     if (initRef.current) return
     initRef.current = true
 
-    async function init() {
-      try {
-        const geo = await fetchMyGeo()
-        setGeoData(geo)
-      } catch {
-        showToast('Could not load your geolocation')
-      } finally {
-        setLoading(false)
-      }
-    }
-    init()
+    setLoading(false)
     loadHistory()
     loadFavorites()
-  }, [loadHistory, loadFavorites, showToast])
+  }, [loadHistory, loadFavorites])
 
   async function handleSearch(ip: string) {
     setSearching(true)
