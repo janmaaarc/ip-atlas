@@ -123,9 +123,8 @@ export default function IpSearch({ onSearch, loading, recentIps = [], onMyLocati
               type="button"
               onClick={onMyLocation}
               disabled={locationLoading}
-              title="My Location"
               aria-label="Detect my location"
-              className="border border-stone-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-stone-600 dark:text-zinc-300 rounded-lg px-2.5 py-2.5 hover:bg-stone-50 dark:hover:bg-zinc-700 hover:text-stone-800 dark:hover:text-zinc-100 disabled:opacity-50 transition inline-flex items-center justify-center"
+              className="border border-stone-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-stone-600 dark:text-zinc-300 text-sm sm:text-base font-medium rounded-lg px-3 sm:px-4 py-2.5 hover:bg-stone-50 dark:hover:bg-zinc-700 hover:text-stone-800 dark:hover:text-zinc-100 disabled:opacity-50 transition inline-flex items-center justify-center gap-2"
             >
               {locationLoading ? (
                 <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -133,10 +132,11 @@ export default function IpSearch({ onSearch, loading, recentIps = [], onMyLocati
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4.5 h-4.5">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-1.5 0a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0ZM10 11.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" clipRule="evenodd" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                  <path fillRule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433a19.695 19.695 0 002.683-2.006c1.9-1.702 3.945-4.211 3.945-7.343a7 7 0 00-14 0c0 3.132 2.045 5.641 3.945 7.343a19.695 19.695 0 002.683 2.006 10.58 10.58 0 00.757.433l.12.064.04.021.013.006.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clipRule="evenodd" />
                 </svg>
               )}
+              {locationLoading ? 'Detecting...' : 'My Location'}
             </button>
           )}
           <button
