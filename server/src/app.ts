@@ -16,6 +16,8 @@ import { authMiddleware } from './middleware/auth'
 
 const app = express()
 
+app.set('trust proxy', 1)
+
 // Swagger docs — mount before helmet to avoid CSP conflicts
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.get('/api/docs.json', (_req, res) => res.json(swaggerSpec))
