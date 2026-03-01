@@ -54,6 +54,7 @@ Fill in your `.env`:
 |----------|----------|-------------|
 | `DATABASE_URL` | Yes | Postgres connection string ([Neon](https://neon.tech/) recommended) |
 | `JWT_SECRET` | Yes | Random string for JWT signing |
+| `REFRESH_SECRET` | Yes | Random string for refresh token signing |
 | `FRONTEND_URL` | No | Defaults to `http://localhost:5173` |
 | `PORT` | No | Defaults to `8000` |
 
@@ -260,15 +261,12 @@ All endpoints use a consistent envelope:
 
 ## Deploy
 
-Deployed on Vercel. The `vercel.json` routes all `/api/*` requests to the Express app:
+Deployed on Render as a Node.js web service.
 
-```json
-{
-  "builds": [{ "src": "dist/index.js", "use": "@vercel/node" }],
-  "routes": [{ "src": "/api/(.*)", "dest": "dist/index.js" }]
-}
-```
+| Setting | Value |
+|---------|-------|
+| **Root Directory** | `server` |
+| **Build Command** | `npm install && npx prisma generate && npm run build` |
+| **Start Command** | `npm start` |
 
-Set `DATABASE_URL`, `JWT_SECRET`, and `FRONTEND_URL` in Vercel environment variables.
-
-Build command: `prisma generate && tsc`
+Set `DATABASE_URL`, `JWT_SECRET`, `REFRESH_SECRET`, and `FRONTEND_URL` in environment variables.
