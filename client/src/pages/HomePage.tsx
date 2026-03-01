@@ -202,7 +202,8 @@ export default function HomePage() {
         await api.delete(`/api/favorites/${currentFavorite.id}`)
         showToast('Removed from favorites', 'success')
       } else {
-        await api.post('/api/favorites', { ipAddress: geoData.ip })
+        const label = [geoData.city, geoData.country].filter(Boolean).join(', ') || null
+        await api.post('/api/favorites', { ipAddress: geoData.ip, label })
         showToast('Added to favorites', 'success')
       }
       loadFavorites()
