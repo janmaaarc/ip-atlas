@@ -132,16 +132,8 @@ export default function HomePage() {
     }
   }
 
-  async function handleClearGeo() {
-    setLoading(true)
-    try {
-      const geo = await fetchMyGeo()
-      setGeoData(geo)
-    } catch {
-      showToast('Could not load your geolocation')
-    } finally {
-      setLoading(false)
-    }
+  function handleClearGeo() {
+    setGeoData(null)
   }
 
   function handleHistoryClick(entry: HistoryEntry) {
