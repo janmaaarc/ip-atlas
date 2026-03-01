@@ -1,9 +1,10 @@
 import { useState, type FormEvent } from 'react'
-import api from '../../lib/api'
 import axios from 'axios'
+import { useAuth } from '../../hooks/useAuth'
 import { INPUT_BASE_DANGER } from '../../lib/styles'
 
 export default function DeleteAccountSection({ onDeleted }: { onDeleted: () => void }) {
+  const { deleteAccount } = useAuth()
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -14,7 +15,7 @@ export default function DeleteAccountSection({ onDeleted }: { onDeleted: () => v
 
     setLoading(true)
     try {
-      await api.delete('/api/account', { data: { password } })
+      await deleteAccount(password)
       onDeleted()
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
