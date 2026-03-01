@@ -1,1 +1,22 @@
-{}
+{
+  "version": 2,
+  "builds": [
+    { "src": "serverless.ts", "use": "@vercel/node" }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "methods": ["OPTIONS"],
+      "headers": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "https://ip-atlas.vercel.app",
+        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,PATCH,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, Cookie"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "serverless.ts"
+    }
+  ]
+}
