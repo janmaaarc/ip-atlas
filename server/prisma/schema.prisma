@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String          @id @default(cuid())
+  email     String          @unique
+  password  String
+  createdAt DateTime        @default(now())
+  history   SearchHistory[]
+  favorites FavoriteIp[]
+}
+
+model FavoriteIp {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ipAddress String
+  label     String?
+  createdAt DateTime @default(now())
+
+  @@unique([userId, ipAddress])
+  @@index([userId, createdAt(sort: Desc)])
+}
+
+model SearchHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ipAddress String
+  geoData   Json
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt(sort: Desc)])
+}
+
+model GeoCache {
+  id       String   @id @default(cuid())
+  ip       String   @unique
+  data     Json
+  cachedAt DateTime @default(now())
+
+  @@index([cachedAt])
+}
+
+model SharedLink {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  geoData   Json
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@index([expiresAt])
+}
