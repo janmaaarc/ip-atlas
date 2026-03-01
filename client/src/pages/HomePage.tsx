@@ -88,14 +88,21 @@ export default function HomePage() {
 
   const initRef = useRef(false)
 
+  const fetchMyGeo = useCallback(async () => {
+    const ipRes = await fetch('https://api.ipify.org?format=json')
+    const { ip } = await ipRes.json()
+    const { data } = await api.get('/api/geo', { params: { ip } })
+    return data.data
+  }, [])
+
   useEffect(() => {
     if (initRef.current) return
     initRef.current = true
 
     async function init() {
       try {
-        const { data } = await api.get('/api/geo')
-        setGeoData(data.data)
+        const geo = await fetchMyGeo()
+        setGeoData(geo)
       } catch {
         showToast('Could not load your geolocation')
       } finally {
@@ -128,8 +135,8 @@ export default function HomePage() {
   async function handleClearGeo() {
     setLoading(true)
     try {
-      const { data } = await api.get('/api/geo')
-      setGeoData(data.data)
+      const geo = await fetchMyGeo()
+      setGeoData(geo)
     } catch {
       showToast('Could not load your geolocation')
     } finally {
