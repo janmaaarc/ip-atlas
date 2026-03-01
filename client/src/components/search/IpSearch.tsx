@@ -5,6 +5,8 @@ interface Props {
   onSearch: (ip: string) => void
   loading: boolean
   recentIps?: string[]
+  onMyLocation?: () => void
+  locationLoading?: boolean
 }
 
 function isValidIp(ip: string) {
@@ -16,7 +18,7 @@ function isValidIp(ip: string) {
   })
 }
 
-export default function IpSearch({ onSearch, loading, recentIps = [] }: Props) {
+export default function IpSearch({ onSearch, loading, recentIps = [], onMyLocation, locationLoading }: Props) {
   const [ip, setIp] = useState('')
   const [error, setError] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
@@ -116,6 +118,27 @@ export default function IpSearch({ onSearch, loading, recentIps = [] }: Props) {
           )}
         </div>
         <div className="flex gap-2 sm:gap-3">
+          {onMyLocation && (
+            <button
+              type="button"
+              onClick={onMyLocation}
+              disabled={locationLoading}
+              title="My Location"
+              aria-label="Detect my location"
+              className="border border-stone-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-stone-600 dark:text-zinc-300 rounded-lg px-2.5 py-2.5 hover:bg-stone-50 dark:hover:bg-zinc-700 hover:text-stone-800 dark:hover:text-zinc-100 disabled:opacity-50 transition inline-flex items-center justify-center"
+            >
+              {locationLoading ? (
+                <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4.5 h-4.5">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-1.5 0a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0ZM10 11.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" clipRule="evenodd" />
+                </svg>
+              )}
+            </button>
+          )}
           <button
             type="submit"
             disabled={loading}
